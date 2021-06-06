@@ -1,6 +1,5 @@
 import tkinter
 import requests
-from tkinter import Label
 import unittest
 
 class Currency():
@@ -14,17 +13,32 @@ class Currency():
         rates = j["conversion_rates"]
         self.curr_value = self.curr_value * rates[requested_unit]
         self.curr_unit = requested_unit
-        Label(tk, text = str(self.curr_value)).pack()
 
-value = Currency("USD", 18)
+    def print(self):
+        print("{} {}".format(self.curr_value, self.curr_unit))
 
-tk = tkinter.Tk()
-tk.title("Currency Convertor")
+class Calculator():
+    def __init__(self):
+        pass
+    
+    def calculate(self, var1, var2, operation, requested_unit):
+        if var1.curr_unit != requested_unit:
+            var2.convert(requested_unit)
 
-entry = tkinter.Entry(tk)
-entry.pack()
+        if var2.curr_unit != requested_unit:
+            var2.convert(requested_unit)
 
-button = tkinter.Button(tk, text = "Convert", command = lambda: value.convert(str(entry.get())))
-button.pack()
-
-tk.mainloop()
+        new_value = 0
+        if operation == '+':
+            new_value = var1.curr_value + var2.curr_value
+        elif operation == '-':
+            new_value = var1.curr_value - var2.curr_value
+        elif operation == '*':
+            new_value = var1.curr_value * var2.curr_value
+        elif operation == '/':
+            new_value = var1.curr_value / var2.curr_value
+        elif operation == '//':
+            new_value = var1.curr_value // var2.curr_value
+        elif operation == '%':
+            new_value = var1.curr_value % var2.curr_value
+        print("{} {}".format(new_value, requested_unit))
